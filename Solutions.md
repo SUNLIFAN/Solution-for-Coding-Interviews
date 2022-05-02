@@ -351,3 +351,28 @@ class Solution {
 
 二分，对数时间复杂度
 
+## T50 第一个只出现一次的字符
+
+两次遍历，第一次计数，第二次查看。
+
+```java
+class Solution {
+    public char firstUniqChar(String s) {
+        Map<Character, Integer> count = new HashMap<>();
+        for(int i = 0; i < s.length(); i ++){
+            if(count.get(s.charAt(i)) == null)count.put(s.charAt(i), 1);
+            else {
+                int cnt = count.get(s.charAt(i)) + 1;
+                count.put(s.charAt(i), cnt);
+            }
+        }
+
+        for(int i = 0; i < s.length(); i ++){
+            if(count.get(s.charAt(i)) == 1)return s.charAt(i);
+        }
+
+        return ' ';
+    }
+}
+```
+
