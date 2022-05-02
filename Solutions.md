@@ -288,3 +288,66 @@ class Solution {
 }
 ```
 
+## T53 在排序数组中查找数字
+
+二分查找，找到第一个出现的地方和最后一个出现的地方，出现次数 就是 last - first + 1
+
+```java
+class Solution {
+    public int search(int[] nums, int target) {
+        int len = nums.length;
+        if(len == 0)return 0;
+        int first = findFirst(nums, target);
+        if(nums[first] != target)return 0;
+        
+        int last = findLast(nums, target);
+
+        return last - first + 1;
+    }
+
+    private int findFirst(int[] nums, int x){
+        int l = 0, r = nums.length-1;
+        while(l < r){
+            int mid = l+r>>1;
+            if(nums[mid] >= x)r = mid;
+            else l = mid + 1;
+        }
+
+        return l;
+    }
+    private int findLast(int[] nums, int x){
+        int l = 0, r = nums.length-1;
+        while(l < r){
+            int mid = l+r+1>>1;
+            if(nums[mid] <= x)l = mid;
+            else r = mid - 1;
+        }
+
+        return l;
+    }
+}
+```
+
+二分，对数时间复杂度
+
+## T53 0-n-1 中缺失的数字
+
+观察区间的二分性质，前一半区间满足 i == nums[i] , 后一半区间满足 nums[i] > i, 后一半区间可能为空，此时缺失的就是最后一个位置对应的数。用这个性质，查找第一个满足 nums[i] > i 的下标就是答案，如果查找不到，那么说明是后一半区间为空的情况。
+
+```java
+class Solution {
+    public int missingNumber(int[] nums) {
+        int l = 0, r = nums.length-1;
+        while(l < r){
+            int mid = l+r>>1;
+            if(nums[mid] > mid)r = mid;
+            else l = mid + 1;
+        }
+
+        return nums[l] == l ? l+1 : l;
+    }
+}
+```
+
+二分，对数时间复杂度
+
