@@ -180,3 +180,34 @@ min() : O(1)
 Space : O(n)
 ```
 
+## T24 反转链表
+
+递归做法，先反转以第二个节点开头的链表，然后把第二个节点的next指向第一个节点，第一个节点next置为空，返回新的头节点。
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode reverseList(ListNode head) {
+        if(head == null || head.next == null)return head;
+        ListNode h = reverseList(head.next);
+        head.next.next = head;
+        head.next = null;
+        return h;
+    }
+}
+```
+
+复杂度分析 :
+
+```
+Time : O(n) 
+Space : O(n) // recursion stack
+```
+
