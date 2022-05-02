@@ -262,3 +262,29 @@ Time:O(n) // scan twice
 Space: O(n) // hashmap
 ```
 
+## T58 剑指offer 左旋转字符串
+
+简单做法
+
+```java
+class Solution {
+    public String reverseLeftWords(String s, int n) {
+        return s.substring(n) + s.substring(0, n);
+    }
+}
+```
+
+如果不能用 `substring`, 要用 `StringBuilder` 对象来拼接字符串，而不是直接拼接。(字符串常量拼接会创建多个对象，效率低)
+
+```java
+class Solution {
+    public String reverseLeftWords(String s, int n) {
+        StringBuilder str = new StringBuilder();
+        for(int i = n; i < s.length(); i ++)str.append(s.charAt(i));
+        for(int i = 0; i < n; i ++)str.append(s.charAt(i));
+
+        return str.toString();
+    }
+}
+```
+
