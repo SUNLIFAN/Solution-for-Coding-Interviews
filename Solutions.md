@@ -376,3 +376,61 @@ class Solution {
 }
 ```
 
+## T11 旋转数组的最小数字
+
+观察区间的二分性质，如果没有重复元素的话，那么前一半区间都是大于等于 number[0] 的元素，后一半区间都是小于 numbers[0] 的元素，用二分查找第一个小于 numbers[0] 的元素即可。对于有重复元素的情况，可能出现这样的情况，尾部的一些元素和numbers[0] 相等，只要先把这些元素去掉就可以按照无重复元素的做法来做。（因为依然满足上述的区间性质）
+
+```java
+class Solution {
+    public int minArray(int[] numbers) {
+        int len = numbers.length;
+        while(len > 1 && numbers[len-1] == numbers[0])len --;
+        int l = 0, r = len-1;
+        while(l < r){
+            int mid = l+r>>1;
+            if(numbers[mid] < numbers[0])r = mid;
+            else l = mid + 1;
+        }
+
+        return numbers[l] < numbers[0] ? numbers[l] : numbers[0];
+    }
+}
+```
+
+## T32 从上到下打印二叉树
+
+简单 BFS
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int[] levelOrder(TreeNode root) {
+        List<Integer> res = new ArrayList<>();
+        if(root == null)return new int[0];
+        Deque<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            TreeNode frt = queue.poll();
+            res.add(frt.val);
+            if(frt.left != null)queue.offer(frt.left);
+            if(frt.right != null)queue.offer(frt.right);
+        }
+
+        int[] ans = new int[res.size()];
+        for(int i = 0; i < res.size(); i ++){
+            ans[i] = res.get(i);
+        }
+
+        return ans;
+    }
+}
+```
+
