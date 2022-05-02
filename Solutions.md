@@ -124,3 +124,59 @@ Time : O(n) // scan array
 Space : O(n) // stack
 ```
 
+## T30 包含min函数的栈
+
+首先需要一个栈，用数组模拟一个即可，然后用一个 minv 数组记录栈底到每个位置最小的数。
+
+```java
+class MinStack {
+    private int[] stk;
+    private int[] minv;
+    private int esp;
+    /** initialize your data structure here. */
+    public MinStack() {
+        stk = new int[20010];
+        minv = new int[20010];
+        esp = 0;
+    }
+    
+    public void push(int x) {
+        stk[++esp] = x;
+        if(esp == 1)minv[esp] = x;
+        else minv[esp] = Math.min(minv[esp-1], x);
+    }
+    
+    public void pop() {
+        --esp;
+    }
+    
+    public int top() {
+        return stk[esp];   
+    }
+    
+    public int min() {
+        return minv[esp];
+    }
+}
+
+/**
+ * Your MinStack object will be instantiated and called as such:
+ * MinStack obj = new MinStack();
+ * obj.push(x);
+ * obj.pop();
+ * int param_3 = obj.top();
+ * int param_4 = obj.min();
+ */
+```
+
+复杂度分析：
+
+```
+Time:
+push : O(1)
+pop : O(1)
+top() : O(1)
+min() : O(1)
+Space : O(n)
+```
+
