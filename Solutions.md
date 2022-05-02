@@ -62,3 +62,9 @@ class Solution {
 }
 ```
 
+复杂度分析:
+```
+Time : O(m+n) //最多排除这么多行和列
+Space : O(1)
+```
+
