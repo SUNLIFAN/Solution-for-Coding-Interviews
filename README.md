@@ -1,2 +1,2 @@
 # Solution-for-Coding-Interviews
-剑指offer刷题记录
+My solution for problems on Coding Interviews.
