@@ -211,3 +211,54 @@ Time : O(n)
 Space : O(n) // recursion stack
 ```
 
+## T35 复杂链表的复制
+
+扫描两趟原链表，第一趟复制节点和 next 关系，并记录原链表到新链表节点之间的一一映射关系（用 hashmap），第二趟利用映射关系复制random 关系。
+
+```java
+/*
+// Definition for a Node.
+class Node {
+    int val;
+    Node next;
+    Node random;
+
+    public Node(int val) {
+        this.val = val;
+        this.next = null;
+        this.random = null;
+    }
+}
+*/
+class Solution {
+    public Node copyRandomList(Node head) {
+        Node dummy = new Node(-1);
+        Node cur = dummy;
+        Node backUp = head;
+        Map<Node, Node> mapping = new HashMap<>();
+        while(head != null){
+            Node n = new Node(head.val);
+            mapping.put(head, n);
+            cur.next = n;
+            cur = cur.next;
+            head = head.next;
+        }
+        cur = dummy.next;
+        while(backUp != null){
+            if(backUp.random != null)cur.random = mapping.get(backUp.random);
+            backUp = backUp.next;
+            cur = cur.next;
+        }
+
+        return dummy.next;
+    }
+}
+```
+
+复杂度分析：
+
+```
+Time:O(n) // scan twice
+Space: O(n) // hashmap
+```
+
