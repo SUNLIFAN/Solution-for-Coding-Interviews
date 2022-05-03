@@ -759,3 +759,37 @@ class Solution {
 lst2 = new ArrayList(lst1); 是浅拷贝
 ```
 
+## T54 二叉搜索树的第 k 大节点
+
+二叉搜索树的中序遍历是递增序列，求出之和倒数第 k 个元素就是第 k 大
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int kthLargest(TreeNode root, int k) {
+        List<Integer> lst = new ArrayList<>();
+        dfs(lst, root);
+        return lst.get(lst.size()-k);
+    }
+
+    void dfs(List<Integer> lst, TreeNode root){
+        if(root == null)return;
+        if(root.left == null && root.right == null){
+            lst.add(root.val);
+            return;
+        }
+        dfs(lst, root.left);
+        lst.add(root.val);
+        dfs(lst, root.right);
+    }
+}
+```
+
