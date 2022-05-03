@@ -818,3 +818,27 @@ class Solution {
 ```
 
 每个节点都会遍历到，时间复杂度是 `O(n)`,最坏情况是极度不平衡的链形的二叉树，递归栈深度 `O(n)`
+
+## T15 二进制中 1 的个数
+
+每次获取二进制中最低位 1, 并减去，直到为 0, 同时计数。
+
+```java
+public class Solution {
+    // you need to treat n as an unsigned value
+    public int hammingWeight(int n) {
+        int cnt = 0;
+        while(n != 0){
+            n -= lowbit(n);
+            cnt ++;
+        }
+
+        return cnt;
+    }
+
+    private int lowbit(int n){
+        return n & (-n);
+    }
+}
+```
+
