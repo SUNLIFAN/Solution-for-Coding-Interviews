@@ -475,3 +475,47 @@ class Solution {
 }
 ```
 
+复杂度分析:
+
+```
+类比字符串匹配，这是暴力写法, 其中 n 是节点个数
+Time : O(n^2) 
+Space : O(n) \\ recursion
+```
+
+## T27 二叉树的镜像
+
+递归，分两步，先把左右子树做镜像，然后交换左右子树。
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode mirrorTree(TreeNode root) {
+        if(root == null || root.left ==null && root.right==null)return root;
+
+        TreeNode tmp = mirrorTree(root.left);
+        root.left = mirrorTree(root.right);
+        root.right = tmp;
+
+        return root;
+    }
+}
+```
+
+复杂度分析：
+
+```
+Time : O(n) \\ scan every node
+Space : O(n) \\ recursion
+```
+
+
+
