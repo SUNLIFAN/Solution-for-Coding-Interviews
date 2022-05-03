@@ -434,3 +434,44 @@ class Solution {
 }
 ```
 
+## T26 树的子结构
+
+判断是否是树的子结构有点像判断是否是字符串子串，考虑两种情况，一种是 B 是 A 的左子树或者右子树的子结构，一种是从根开始匹配的子结构。第一种情况可以递归解决，第二种情况写个 dfs 即可。
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isSubStructure(TreeNode A, TreeNode B) {
+        if(A == null)return false;
+        if(B == null)return false;
+
+        if(dfs(B, A))return true;
+
+        return isSubStructure(A.left, B) || isSubStructure(A.right, B);
+    }
+
+    /* a is sub of b ? 
+     */
+    boolean dfs(TreeNode a, TreeNode b){
+        if(b == null)return false;
+        if(a.left == null && a.right == null){
+            return a.val == b.val;
+        }
+        if(a.val != b.val)return false;
+        boolean res = true;
+        if(a.left != null)res =  res && dfs(a.left, b.left);
+        if(a.right != null)res = res && dfs(a.right, b.right);
+
+        return res; 
+    }
+}
+```
+
