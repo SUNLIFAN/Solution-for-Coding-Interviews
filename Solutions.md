@@ -793,3 +793,28 @@ class Solution {
 }
 ```
 
+## T55 二叉树的深度
+
+简单递归
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public int maxDepth(TreeNode root) {
+        if(root == null)return 0;
+        if(root.left == null && root.right == null)return 1;
+
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+}
+```
+
+每个节点都会遍历到，时间复杂度是 `O(n)`,最坏情况是极度不平衡的链形的二叉树，递归栈深度 `O(n)`
