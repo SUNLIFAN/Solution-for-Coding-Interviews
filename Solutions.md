@@ -646,3 +646,61 @@ class Solution {
 
 ```
 
+## T13 机器人的运动范围
+
+可达性的问题，BFS 即可
+
+```java
+class Solution {
+    private int[] dx = {1, -1, 0, 0};
+    private int[] dy = {0, 0, 1, -1};
+    private boolean[][] visited;
+    public int movingCount(int m, int n, int k) {
+        visited = new boolean[m][n];
+        for(int i = 0; i < m; i ++)
+            for(int j = 0; j < n; j ++)
+             visited[i][j] = false;
+        int count = 1;
+        Deque<Point> q = new LinkedList<>();
+        q.offer(new Point(0, 0));
+        visited[0][0] = true;
+        while(!q.isEmpty()){
+            Point p = q.poll();
+            int x = p.x, y = p.y;
+            for(int i = 0; i < 4; i ++){
+                int x_ = x + dx[i], y_ = y + dy[i];
+                if(x_ >= 0 && x_ < m && y_ >= 0 && y_ < n && !visited[x_][y_]){
+                    if(getDigitSum(x_) + getDigitSum(y_) <= k){
+                        q.push(new Point(x_, y_));
+                        visited[x_][y_] = true;
+                        count ++;
+                    }
+                }
+            }
+        }
+
+        return count;        
+    }
+
+    private int getDigitSum(int num){
+        int sum = 0;
+        while(num > 0){
+            sum = sum + num % 10;
+            num /= 10;
+        }
+
+        return sum;
+    }
+
+    private class Point {
+        int x;
+        int y;
+        Point(int x, int y){
+            this.x = x;
+            this.y = y;
+        }
+    }
+}
+
+```
+
