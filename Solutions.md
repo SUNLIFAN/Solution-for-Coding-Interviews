@@ -842,3 +842,18 @@ public class Solution {
 }
 ```
 
+## T64 求 1 + 2 + ... + n
+
+对使用的运算符做了一些限制，感觉是脑筋急转弯，用与运算的短路性质实现了 if, else 的功能。Java 对表达式的书写要求比较严格, 整型不能自动转成布尔类型，比 C++麻烦一点。
+
+```java
+class Solution {
+    public int sumNums(int n) {
+        int res = n;
+        boolean flag = (n > 0) && (res += sumNums(n-1)) > 0;
+        return res;
+    }
+}
+
+```
+
