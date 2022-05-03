@@ -517,5 +517,85 @@ Time : O(n) \\ scan every node
 Space : O(n) \\ recursion
 ```
 
+## T28 对称的二叉树
 
+法一：遍历
+
+获得左子树的前序遍历序列和右子树的对称前序遍历序列，如果相等的话那么左右子树对称。
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null)return true;
+        List<Integer> pre = new ArrayList<>();
+        List<Integer> symPre = new ArrayList<>();
+        preorder(root.left, pre);
+        symPreorder(root.right, symPre);
+        for(int i = 0; i < pre.size(); i ++){
+            if(pre.get(i) != symPre.get(i))return false;
+        }
+
+        return true;
+    }
+
+    void preorder(TreeNode root, List<Integer> res){
+        if(root == null){
+            res.add(null);
+            return;
+        }
+        res.add(root.val);
+        preorder(root.left, res);
+        preorder(root.right, res);
+    }
+
+    void symPreorder(TreeNode root, List<Integer> res){
+        if(root == null){
+            res.add(null);
+            return;
+        }
+
+        res.add(root.val);
+        symPreorder(root.right, res);
+        symPreorder(root.left, res);
+    }
+}
+```
+
+法二： 递归
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        if(root == null)return true;
+
+        return check(root.left, root.right);
+    }
+
+    public boolean check(TreeNode p, TreeNode q){
+        if(p == null && q == null)return true;
+        if(p == null || q == null)return false;
+
+        return p.val == q.val && check(p.left, q.right) && check(p.right, q.left);
+    }
+}
+
+```
 
