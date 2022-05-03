@@ -704,3 +704,58 @@ class Solution {
 
 ```
 
+## T34 二叉树中和为某一值的路径
+
+回溯
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    List<List<Integer>> res = new ArrayList<>();
+    public List<List<Integer>> pathSum(TreeNode root, int target) {
+        dfs(root, 0, target, new LinkedList<>());
+
+        return res;
+    }
+
+    private void dfs(TreeNode root, int curSum, int target, LinkedList<Integer> tmp){
+        if(root == null)return;
+        if(root.left == null && root.right == null){
+            curSum += root.val;
+            if(curSum == target){
+                tmp.add(root.val);
+                res.add(new ArrayList(tmp));
+                tmp.removeLast();
+                return;
+            }
+        }
+
+        tmp.add(root.val);
+        curSum += root.val;
+        if(root.left != null)dfs(root.left, curSum, target, tmp);
+        if(root.right != null)dfs(root.right, curSum, target, tmp);
+        tmp.removeLast();
+    }
+
+}
+
+```
+
+```java
+lst2 = new ArrayList(lst1); 是浅拷贝
+```
+
