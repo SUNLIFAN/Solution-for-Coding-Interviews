@@ -599,3 +599,50 @@ class Solution {
 
 ```
 
+## T12 矩阵中的路径
+
+回溯
+
+```java
+class Solution {
+    private int[] dx = {1, -1, 0, 0};
+    private int[] dy = {0, 0, 1, -1};
+    private boolean[][] visited;
+
+    public boolean exist(char[][] board, String word) {
+        visited = new boolean[board.length][board[0].length];
+        for(int i = 0; i < visited.length; i ++)
+            for(int j = 0; j < visited[0].length; j ++)
+                visited[i][j] = false;
+        for(int i = 0; i < board.length; i ++)
+            for(int j = 0; j < board[0].length; j ++){
+                if(board[i][j] == word.charAt(0)){
+                    visited[i][j] = true;
+                    boolean res = dfs(board, word, 1, i, j);
+                    visited[i][j] = false;
+                    if(res)return true;
+                }
+            }
+        return false;
+    }
+
+    public boolean dfs(char[][] board, String word, int hasMatched, int x, int y){
+        if(hasMatched == word.length())return true;
+        for(int i = 0; i < 4; i ++){
+            int x_ = x + dx[i], y_ = y + dy[i];
+            if(x_>=0 && x_ < board.length && y_>=0 && y_ <board[0].length && !visited[x_][y_]){
+                if(board[x_][y_] == word.charAt(hasMatched)){
+                    visited[x_][y_] = true;
+                    boolean res = dfs(board, word, hasMatched+1, x_, y_);
+                    visited[x_][y_] = false;
+                    if(res)return true;
+                }
+            }
+        }
+
+        return false;
+    }
+}
+
+```
+
