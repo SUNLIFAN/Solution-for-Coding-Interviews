@@ -1611,3 +1611,66 @@ class Solution {
 
 ```
 
+## T10 斐波那契数列
+
+简单递推
+
+```java
+class Solution {
+    public final int MOD = 1000000007;
+    private int[] f;
+    public int fib(int n) {
+        if(n == 0)return 0;
+        if(n == 1)return 1;
+        f = new int[n+1];
+        f[0] = 0;
+        f[1] = 1;
+        for(int i = 2; i <= n; i ++)f[i] = (f[i-1] + f[i-2] ) % MOD;
+
+        return f[n];
+    }
+}
+
+```
+
+## T10 青蛙跳台阶
+
+和斐波那契数列其实是一样的,要跳到 n 级，可以从 n-1 或者 n-2 跳上来
+
+```java
+class Solution {
+    public final int MOD = 1000000007;
+    private int[] f;
+    public int numWays(int n) {
+        if(n == 0 || n == 1)return 1;
+        f = new int[n+1];
+        f[0] = f[1] = 1;
+        for(int i = 2; i <= n; i ++)f[i] = (f[i-1] + f[i-2]) % MOD;
+
+        return f[n];
+    }
+}
+
+```
+
+## T63 股票的最大利润
+
+枚举每个可能卖出的时间，在之前的最低价格买入
+
+```java
+class Solution {
+    public int maxProfit(int[] prices) {
+        if(prices.length < 2)return 0;
+        int ans = 0;
+        int minv = prices[0];
+        for(int i = 1; i < prices.length; i ++){
+            ans = Math.max(prices[i]-minv, ans);
+            minv = Math.min(minv, prices[i]);
+        }
+
+        return ans;
+    }
+}
+
+```
+
