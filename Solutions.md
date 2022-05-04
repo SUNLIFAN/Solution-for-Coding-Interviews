@@ -1334,3 +1334,41 @@ class Solution {
 
 ```
 
+## T58 翻转单词顺序
+
+用单个空格 split 之后手动过滤 / 用正则表达式  split
+
+```java
+class Solution {
+    public String reverseWords(String s) {
+        String[] words = s.trim().split(" ");
+        StringBuilder reverseStr = new StringBuilder();
+        for(int i = words.length-1; i >= 0; i --){
+            if("".equals(words[i].trim()))continue;
+            reverseStr.append(words[i]);
+            if(i > 0)reverseStr.append(" ");
+        }
+
+        return reverseStr.toString();
+    }
+}
+
+```
+
+```java
+class Solution {
+    public String reverseWords(String s) {
+        String[] words = s.trim().split("\\s+");
+        StringBuilder reverseStr = new StringBuilder();
+        for(int i = words.length-1; i >= 0; i --){
+            //if("".equals(words[i].trim()))continue;
+            reverseStr.append(words[i]);
+            if(i > 0)reverseStr.append(" ");
+        }
+
+        return reverseStr.toString();
+    }
+}
+
+```
+
