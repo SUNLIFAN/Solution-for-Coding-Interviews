@@ -1109,3 +1109,30 @@ class Solution {
 
 ```
 
+## T21 调整数组顺序使得奇数位于偶数前面
+
+仿照快速排序的 partition 算法, 把奇数留在左边，偶数都扔到后面。
+
+```java
+class Solution {
+    public int[] exchange(int[] nums) {
+        int i = -1, j = nums.length;
+        while(i < j){
+            do i++;while(i < nums.length && (nums[i] & 1) == 1);
+            do j--;while(j >= 0 && (nums[j] & 1) == 0);
+            if(i < j){
+                swap(nums, i, j);
+            }
+        }
+
+        return nums;
+    }
+
+    private void swap(int[] nums, int i, int j){
+        int tmp = nums[i];
+        nums[i] = nums[j];
+        nums[j] = tmp;
+    }
+}
+```
+
