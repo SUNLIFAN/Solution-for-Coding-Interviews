@@ -1560,3 +1560,54 @@ class Solution {
 
 ```
 
+## T16 数值的整数次方
+
+快速幂板子题
+
+```java
+class Solution {
+    public double myPow(double x, int n) {
+        return n > 0 ? qPow(x, n) : 1 / qPow(x, -(long)n);
+    }
+
+    public double qPow(double x, long n){
+        double res = 1;
+        while(n > 0){
+            if((n&1) == 1)res = res * x;
+            x = x * x;
+            n >>= 1;
+        }
+
+        return res;
+    }
+}
+
+```
+
+## T33 二叉搜索树的后序遍历序列
+
+先判断满不满足基本偏序性质（和根的大小关系），再递归判断子树是不是二叉搜索树
+
+```java
+class Solution {
+    public boolean verifyPostorder(int[] postorder) {
+        int len = postorder.length;
+
+        return check(postorder, 0, len-1);
+    }
+
+    private boolean check(int[] postorder, int l, int r){
+        if(l >= r)return true;
+
+        int index = r - 1;
+        while(index >= l && postorder[index] > postorder[r])index --;
+        int tmp = index;
+        while(tmp >= l && postorder[tmp] < postorder[r])tmp --;
+        if(tmp >= l)return false;
+
+        return check(postorder, l, index) && check(postorder, index+1, r-1);
+    }
+}
+
+```
+
