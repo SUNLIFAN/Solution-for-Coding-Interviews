@@ -916,3 +916,67 @@ Time : O(n) //每个节点遍历到常数次
 Space : O(n) // Map, recursion
 ```
 
+## T32 从上到下打印二叉树 II
+
+广搜，先存遍历序列和对应深度，再获取最终答案列表。
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        List<List<Integer>> res = new ArrayList<>();
+        List<Node> lst = new ArrayList<>();
+        if(root == null)return res;
+        Deque<Node> q = new LinkedList<>();
+        Node r = new Node(root, 0);
+        q.offer(r);
+        lst.add(r);
+        while(!q.isEmpty()){
+            Node frt = q.poll();
+            if(frt.node.left != null){
+                Node ln = new Node(frt.node.left, frt.depth + 1);
+                lst.add(ln);
+                q.offer(ln);
+            }
+            if(frt.node.right != null){
+                Node rn = new Node(frt.node.right, frt.depth + 1);
+                lst.add(rn);
+                q.offer(rn);
+            }
+        }
+
+        int prevDepth = -1;
+        List<Integer> tmp = new ArrayList<>();
+        for(int i = 0; i < lst.size(); i ++){
+            if(lst.get(i).depth > prevDepth){
+                prevDepth = lst.get(i).depth;
+                if(prevDepth > 0)res.add(new ArrayList(tmp));
+                tmp.clear();
+            }
+            tmp.add(lst.get(i).node.val);
+        }
+        res.add(tmp);
+
+        return res;
+    }
+
+    private class Node {
+        TreeNode node;
+        int depth;
+        Node(TreeNode n, int d){
+            node = n;
+            depth = d;
+        }
+    }
+}
+
+```
+
