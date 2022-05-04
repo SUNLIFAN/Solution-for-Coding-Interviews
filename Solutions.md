@@ -1165,3 +1165,63 @@ class Solution {
 
 ```
 
+## T22 链表中倒数第 k 个节点
+
+法一: 遍历链表，节点逐个压栈, 弹出 k-1 个，此时栈顶就是倒数第 k 个节点。
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        Deque<ListNode> stk = new LinkedList<>();
+        while(head != null){
+            stk.push(head);
+            head = head.next;
+        }
+
+        for(int i = 0; i < k-1; i ++)stk.pop();
+
+        return stk.peek();
+    }
+}
+
+```
+
+法二：双指针
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode getKthFromEnd(ListNode head, int k) {
+        ListNode front = head;
+        while(front != null && k > 0){
+            front = front.next;
+            k --;
+        }
+        if(k > 0)return null;
+        ListNode back = head;
+        while(front != null){
+            front = front.next;
+            back = back.next;
+        }
+
+        return back;
+    }
+}
+
+```
+
