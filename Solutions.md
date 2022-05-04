@@ -1051,5 +1051,61 @@ class Solution {
 
 ```
 
+## T36 二叉搜索树和双向链表
 
+先对左右子树递归，然后再拼起来
+
+```java
+/*
+// Definition for a Node.
+class Node {
+    public int val;
+    public Node left;
+    public Node right;
+
+    public Node() {}
+
+    public Node(int _val) {
+        val = _val;
+    }
+
+    public Node(int _val,Node _left,Node _right) {
+        val = _val;
+        left = _left;
+        right = _right;
+    }
+};
+*/
+class Solution {
+    public Node treeToDoublyList(Node root) {
+        if(root == null)return root;
+        if(root.left == null && root.right == null){
+            root.left = root.right = root;
+            return root;
+        }
+        Node leftHead = treeToDoublyList(root.left);
+        Node rightHead = treeToDoublyList(root.right);
+        Node head = leftHead == null ? root : leftHead;
+        Node tail = rightHead == null ? root : rightHead.left;
+        if(leftHead != null){
+            Node cur = leftHead;
+            while(cur.right != leftHead){
+                cur = cur.right;
+            }
+            cur.right = root;
+            root.left = cur;
+        }
+        if(rightHead != null){
+            rightHead.left = root;
+            root.right = rightHead;
+        }
+        
+        head.left = tail;
+        tail.right = head;
+
+        return head;
+    }
+}
+
+```
 
