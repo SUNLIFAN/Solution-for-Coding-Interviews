@@ -1484,3 +1484,38 @@ class Solution {
 }
 ```
 
+## T68 二叉树的最近公共祖先
+
+扩充函数的定义,
+
+1. 如果在root为根的树中，同时具有pq两个节点，则返回最近祖先
+2. 如果在root为根中的树中，只有其中一个节点，则返回含有的那个节点
+3. 如果两个节点都不存在，则返回null
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root == null || root == p || root == q)return root;
+
+        TreeNode l = lowestCommonAncestor(root.left, p, q);
+        TreeNode r = lowestCommonAncestor(root.right, p, q);
+
+        if(l != null && r != null)return root;
+
+        if(l != null)return l;
+
+        return r;
+    }
+}
+
+```
+
