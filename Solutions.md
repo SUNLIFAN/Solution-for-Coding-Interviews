@@ -1519,3 +1519,44 @@ class Solution {
 
 ```
 
+## T7 重建二叉树
+
+递归地重建左右子树，然后和根拼起来
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int len = preorder.length;
+
+        return build(preorder, inorder, 0, len-1, 0, len-1);
+    }
+
+    private TreeNode build(int[] preorder, int[] inorder, int l1, int r1, int l2, int r2){
+        if(l1 > r1)return null;
+        if(l1 == r1)return new TreeNode(preorder[l1]);
+
+        TreeNode root = new TreeNode(preorder[l1]);
+        int index = l2;
+        while(index <= r2 && inorder[index] != root.val)index ++;
+        int leftSize = index - l2;
+        TreeNode leftSub = build(preorder, inorder, l1+1, l1 + leftSize, l2, index-1);
+        TreeNode rightSub = build(preorder, inorder, l1 + leftSize + 1, r1, index + 1, r2);
+
+        root.left = leftSub;
+        root.right = rightSub;
+
+        return root;
+    }
+}
+
+```
+
