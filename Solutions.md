@@ -1310,3 +1310,27 @@ public class Solution {
 
 ```
 
+## T57 和为 s 的两个数字
+
+法一 : 二分查找, 对于每个数 nums[i], 查找有没有 j > i ,使得 nums[j] = target - nums[i]
+
+时间复杂度`O(nlogn)`
+
+法二: 双指针
+
+```java
+class Solution {
+    public int[] twoSum(int[] nums, int target) {
+        int i = 0, j = nums.length-1;
+        while(i < j){
+            if(nums[i] + nums[j] == target)return new int[]{nums[i], nums[j]};
+            else if(nums[i] + nums[j] > target)j--;
+            else i ++;
+        }
+
+        return new int[0];
+    }
+}
+
+```
+
