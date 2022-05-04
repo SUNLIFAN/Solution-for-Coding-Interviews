@@ -1372,3 +1372,86 @@ class Solution {
 
 ```
 
+## T45 把数组排成最小的数
+
+贪心
+
+(要排序首先要确定给出的标准能给出一个全序关系)
+
+```java
+class Solution {
+    public String minNumber(int[] nums) {
+        StringBuilder minNum = new StringBuilder();
+        List<String> lst = new ArrayList<>();
+        for(int i = 0; i < nums.length; i ++){
+            lst.add(String.valueOf(nums[i]));
+        }
+
+        Collections.sort(lst, (s1, s2)->(s1+s2).compareTo(s2+s1));
+        for(int i = 0; i < lst.size(); i ++){
+            minNum.append(lst.get(i));
+        }
+
+        return minNum.toString();
+    }
+}
+```
+
+## T61 扑克牌中的顺子
+
+排序之后按规则模拟，先统计 0 的个数。
+
+```java
+class Solution {
+    public boolean isStraight(int[] nums) {
+        int len = nums.length;
+        if(len != 5)return false;
+        Arrays.sort(nums);
+        int countZero = 0;
+        while(countZero < len && nums[countZero] == 0)countZero ++;
+        int prev = -1;
+        for(int i = countZero; i < len; i ++){
+            if(prev == -1)prev = nums[i];
+            else {
+                if(prev+1 == nums[i])prev = nums[i];
+                else {
+                    while(prev+1 != nums[i] && countZero >= 0){
+                        prev = prev + 1;
+                        countZero --;
+                    }
+                    if(countZero < 0)return false;
+                    prev = nums[i];
+                }
+            }
+        }
+
+        return true;
+    }
+}
+
+```
+
+## T40 最小的 k 个数
+
+维护一个大根堆，堆元素个数超过 k 就弹出堆顶，扫描一趟数组之后堆里就是最小的 k 个数。
+
+```java
+class Solution {
+    public int[] getLeastNumbers(int[] arr, int k) {
+        PriorityQueue<Integer> pq = new PriorityQueue<>(k+1, (i1, i2)->-i1.compareTo(i2));
+        for(int i = 0; i < arr.length; i ++){
+            pq.offer(arr[i]);
+            if(pq.size() > k)pq.poll();
+        }
+
+        int[] res = new int[k];
+        for(int i = k-1; i >=0 ; i --){
+            res[i] = pq.poll();
+        }
+
+        return res;
+    }
+}
+
+```
+
