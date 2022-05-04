@@ -1136,3 +1136,32 @@ class Solution {
 }
 ```
 
+## T18 删除链表的节点
+
+为了减少判断，先新建一个 dummy node, 然后从 dummy node 开始查找待删除链表节点的前一个节点，找到之后将它的 next 置为待删除节点的next
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public ListNode deleteNode(ListNode head, int val) {
+        ListNode dummy = new ListNode(-1);
+        dummy.next = head;
+        ListNode cur = dummy;
+        while(cur.next != null && cur.next.val != val){
+            cur = cur.next;
+        }
+        if(cur.next != null)cur.next = cur.next.next;
+
+        return dummy.next;
+    }
+}
+
+```
+
