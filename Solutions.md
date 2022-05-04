@@ -1455,3 +1455,32 @@ class Solution {
 
 ```
 
+## T68 二叉搜索树的最近公共祖先
+
+根据二叉搜索树的性质，如果 p.val 和 q.val 都同时大于或者小于 root.val, 那么他们的 lca 一定在左右子树之一中，否则, p, q 属于不同子树, lca 是 root. 如果 p 或者 q 本身就是 root, 那么它本身就是 lca
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if(root.val == p.val || root.val == q.val){
+            return root.val == p.val ? p : q;
+        }   
+
+        if(Math.max(p.val, q.val) < root.val)
+            return lowestCommonAncestor(root.left, p, q);
+        else if(Math.min(p.val, q.val) > root.val)
+            return lowestCommonAncestor(root.right, p, q);
+        return root;
+    }
+}
+```
+
