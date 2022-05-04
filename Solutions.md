@@ -1268,3 +1268,45 @@ class Solution {
 
 时间复杂度 `O(n)` 
 
+## T52 两个链表第一个公共节点
+
+如果两个链表有公共节点，假设非公共部分长为 a, b, 公共部分长为 c, 用两个指针分别指向两个链表开头，每次往后走一步，若到表尾则回到另一个表的开头，则它们会在第一个公共节点处相遇，此时路程为 a + b + c, 如果回到表头的总次数超过 2，说明没有公共点
+
+```java
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) {
+ *         val = x;
+ *         next = null;
+ *     }
+ * }
+ */
+public class Solution {
+    public ListNode getIntersectionNode(ListNode headA, ListNode headB) {
+        if(headA == null || headB == null)return null;
+        ListNode curA = headA, curB = headB;
+        int cnt = 0;
+        while(curA != null && curB != null){
+            if(curA == curB)return curA;
+            curA = curA.next;
+            curB = curB.next;
+            if(curA == null){
+                curA = headB;
+                cnt ++;
+            }
+            if(curB == null){
+                curB = headA;
+                cnt ++;
+            }
+            if(cnt > 2)return null;
+        }
+
+        return null;
+    }
+}
+
+```
+
