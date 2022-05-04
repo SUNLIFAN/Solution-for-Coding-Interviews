@@ -857,3 +857,62 @@ class Solution {
 
 ```
 
+## T55 平衡二叉树
+
+一棵树是平衡二叉树，当它的左右子树高度差不超过 1, 且左右子树也是平衡二叉树，利用定义递归做即可。
+
+```java
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    Map<TreeNode, Integer> map = new HashMap<>();
+    public boolean isBalanced(TreeNode root) {
+        if(root == null)return true;
+        dfs(root);
+
+        return check(root);
+    }
+
+    private boolean check(TreeNode root){
+        if(root == null)return true;
+        
+        int lHeight = root.left == null ? 0 : map.get(root.left);
+        int rHeight = root.right == null ? 0 : map.get(root.right);
+
+        return Math.abs(lHeight - rHeight) <= 1 && 
+        check(root.left) && check(root.right);
+    }
+
+    private void dfs(TreeNode root){
+        if(root == null)return;
+        if(root.left == null && root.right == null){
+            map.put(root, 1);
+            return;
+        }
+        dfs(root.left);
+        dfs(root.right);
+        int lHeight = root.left == null ? 0 : map.get(root.left);
+        int rHeight = root.right == null ? 0 : map.get(root.right);
+        int height = Math.max(lHeight, rHeight) + 1;
+        map.put(root, height);
+
+        return;
+    }
+}
+
+```
+
+复杂度分析: 
+
+```
+Time : O(n) //每个节点遍历到常数次
+Space : O(n) // Map, recursion
+```
+
