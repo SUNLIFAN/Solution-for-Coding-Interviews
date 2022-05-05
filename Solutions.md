@@ -1674,3 +1674,158 @@ class Solution {
 
 ```
 
+## T29 顺时针打印矩阵
+
+硬模拟
+
+```java
+class Solution {
+    private int[] dx = {0, 1, 0, -1};
+    private int[] dy = {1, 0, -1, 0};
+    private boolean[][] st;
+    public int[] spiralOrder(int[][] matrix) {
+        int rows = matrix.length;
+        if(rows == 0)return new int[0];
+        int cols = matrix[0].length;
+        if(cols == 0)return new int[0];
+        int[] res = new int[rows * cols];
+        int count = 0;
+        int dir = 0;
+        st = new boolean[rows][cols];
+        for(int i = 0; i < rows; i ++)
+            for(int j = 0; j < cols; j ++)
+                st[i][j] = false;
+        int x = 0, y = 0;
+        while(count < res.length){
+            res[count++] = matrix[x][y];
+            st[x][y] = true;
+            int x_ = x + dx[dir], y_ = y + dy[dir];
+            if(x_<0 || x_ >= rows || y_ < 0 || y_ >= cols || st[x_][y_])dir = (dir + 1) % 4;
+            x = x + dx[dir];
+            y = y + dy[dir];
+        }
+
+        return res;
+    }
+}
+
+```
+
+## T31 栈的压入弹出序列
+
+模拟，每次压入一个元素之后看看能不能弹掉一些，最后如果能弹空就是合法序列
+
+```java
+class Solution {
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        Deque<Integer> stk = new LinkedList<>();
+        int len = pushed.length;
+        if(len < 2)return true;
+        int popIndex = 0;
+        for(int i = 0; i < len; i ++){
+            stk.push(pushed[i]);
+            while(!stk.isEmpty() && popIndex < len && stk.peek() == popped[popIndex]){
+                stk.pop();
+                popIndex ++;
+            }
+        }
+
+        return stk.isEmpty();
+    }
+}
+
+```
+
+## T42 连续子数组的最大和
+
+简单 DP
+
+```java
+class Solution {
+    private int[] f;
+    public int maxSubArray(int[] nums) {
+        int len = nums.length;
+        f = new int[len];
+        int ans = nums[0];
+        f[0] = nums[0];
+        for(int i = 1; i < len; i ++){
+            f[i] = Math.max(f[i-1] + nums[i], nums[i]);
+            ans = Math.max(ans, f[i]);
+        }
+
+        return ans;
+    }
+}
+
+```
+
+## T47 礼物的最大价值
+
+定义 `f[i][j]` 为从左上角出发，走到 `(i, j)` 能获得的最大价值, `f[i][j] = grid[i][j]`, 对于每个位置，可以从它的上面或者左边到达，因此 `f[i][j] = max(f[i-1][j], f[i][j-1]) + grid[i][j]`
+
+```java
+class Solution {
+    private int[][] f;
+    public int maxValue(int[][] grid) {
+        int rows = grid.length;
+        int cols = grid[0].length;
+        f = new int[rows][cols];
+        f[0][0] = grid[0][0];
+        for(int i = 1; i < cols; i ++)f[0][i] = f[0][i-1] + grid[0][i];
+        for(int i = 1; i < rows; i ++)f[i][0] = f[i-1][0] + grid[i][0];
+        for(int i = 1; i < rows; i ++)
+            for(int j = 1; j < cols; j ++)
+                f[i][j] = Math.max(f[i-1][j], f[i][j-1]) + grid[i][j];
+
+        return f[rows-1][cols-1];        
+    }
+}
+
+```
+
+## T46 把数字翻译成字符串
+
+base case : 对于数字 0~9, 只有一种翻译方法, 对于两位数 10 ~ 25, 有两种翻译方法。
+对于数字 abcd...efg, 可能数字 ab 作为翻译的第一个字符，或者数字 a 作为翻译的第一个字符。
+但是数字 ab 能够翻译成单个字符的条件是 ab > 9 && ab < 26, 根据以上可以写出递推式,这里使用记忆化搜索的写法.
+
+```java
+class Solution {
+    private int[] f;
+    public int translateNum(int num) {
+        if(num < 10)return 1;
+        List<Integer> lst = new ArrayList<>();
+        while(num > 0){
+            lst.add(num % 10);
+            num /= 10;
+        }
+        f = new int[lst.size()];
+        for(int i = 0; i < lst.size(); i ++)f[i] = -1;
+
+        return count(0, lst.size()-1, lst);
+    }
+
+    private int count(int low, int high, List<Integer> lst){
+        if(f[low] != -1)return f[low];
+        if(low == high){
+            f[low] = 1;
+            return f[low];
+        }
+        if(high - low == 1){
+            f[low] = 1;
+            int part = lst.get(low) + lst.get(high) * 10;
+            if(part > 9 && part < 26)f[low] += 1;
+            return f[low];
+        }
+
+        int part = lst.get(low) + lst.get(low+1) * 10;
+        f[low] = 0;
+        f[low] += count(low+1, high, lst);
+        if(part > 9 && part < 26)f[low] += count(low+2, high, lst);
+
+        return f[low];
+    }
+}
+
+```
+
