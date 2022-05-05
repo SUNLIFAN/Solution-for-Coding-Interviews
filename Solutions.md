@@ -1829,3 +1829,36 @@ class Solution {
 
 ```
 
+## T48 最长不含重复字符的子字符串
+
+滑动窗口
+
+```java
+class Solution {
+    public int lengthOfLongestSubstring(String s) {
+        int len = s.length();
+        if(len < 2)return len;
+        Map<Character, Integer> map = new HashMap<>();
+        int ans = 0;
+        for(int left = 0, right = 0; right < len; right ++){
+            increaseCount(s.charAt(right), map, 1);
+            while(left < right && map.get(s.charAt(right)) > 1){
+                increaseCount(s.charAt(left), map, -1);
+                left ++;
+            }
+            ans = Math.max(ans, right - left + 1);
+        }
+
+        return ans;
+    }
+
+    private void increaseCount(char c, Map<Character, Integer> map, int amount){
+        if(map.get(c) == null)map.put(c, 1);
+        else {
+            map.put(c, map.get(c) + amount);
+        }
+    }
+}
+
+```
+
